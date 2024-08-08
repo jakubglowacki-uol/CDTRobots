@@ -10,7 +10,7 @@ def main():
     gripper=RobotiqGripper()
     gripper.connect(HOST, 63352)
     gripper.activate()
-    gripper.move(0,1,2)
+    gripper.move(0,255,255)
 
 
 if __name__ == '__main__':
