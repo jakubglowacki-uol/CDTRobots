@@ -12,7 +12,7 @@ PORT = 29999
 def main():
     tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     tcp_socket.connect((HOST, PORT))
-    #tcp_socket.send(str.encode("power on"))
+    tcp_socket.send(str.encode("power on"))
     tcp_socket.send(str.encode("brake release"))
     #tcp_socket.send(str.encode("power off"))
 

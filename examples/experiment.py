@@ -33,10 +33,22 @@ def main():
     gripper.move(0,125,125)
     joint_state=degreestorad([129.53,-68.61,81.36,-99.53,-91.25,33.37])
     robot.move_joint_list(joint_state, 0.1, 0.1, 0.02)
-    joint_state=degreestorad([144.16,-44.85,110.74,-214.52,-139.21,109.44])
-    #robot.move_joint_list(joint_state, 0.1, 0.1, 0.02)
-    joint_state=degreestorad([142.39,-63.66,71.45,-96.70,-97.29,157.08])
-    #robot.move_joint_list(joint_state, 0.1, 0.1, 0.02)
+    gripper.move(255,125,125)
+    joint_state=degreestorad([129.82,-62.09,92.72,-117.72,-91.52,33.52])
+    robot.move_joint_list(joint_state, 0.1, 0.1, 0.02)
+    joint_state=degreestorad([129.53,-68.61,81.36,-99.53,-91.25,33.37])
+    robot.move_joint_list(joint_state, 0.1, 0.1, 0.02)
+    joint_state=degreestorad([125.27,-72.69,86.96,-101.30,-91.59,29.0])
+    robot.move_joint_list(joint_state, 0.1, 0.1, 0.02)
+    gripper.move(0,125,125)
+    joint_state=degreestorad([125.26,-65.26,98.28,-120.03,-91.65,29.08])
+    robot.move_joint_list(joint_state, 0.1, 0.1, 0.02)
+    gripper.move(255,125,125)
+    joint_state=degreestorad([125.27,-72.69,86.96,-101.30,-91.59,29.0])
+    robot.move_joint_list(joint_state, 0.1, 0.1, 0.02)
+
+
+    #robot.go_home()
     
 def degreestorad(list):
      for i in range(6):

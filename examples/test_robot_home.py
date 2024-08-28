@@ -21,9 +21,12 @@ def main():
     robot.move_joint_list(joint_state, 0.5, 0.5, 0.02)
 
     joint_state = [0.00000744, -1.57083954, 1.57082969, -1.57077511, -1.57079918, -0.00003463]
-    robot.move_joint_list(joint_state, 0.5, 0.5, 0.02)
+    #robot.move_joint_list(joint_state, 0.5, 0.5, 0.02)
 
     joint_state = [1.6898278, -0.118682, -2.8710666, -1.7318902, 0.009250245, 0.001919862]
+    #robot.move_joint_list(joint_state, 0.5, 0.5, 0.02)
+    #FOR ROS  
+    joint_state = [0.0,-1.57,0.0,-1.57,0.0,0.0]
     #robot.move_joint_list(joint_state, 0.5, 0.5, 0.02)
 
 def degreestorad(list):

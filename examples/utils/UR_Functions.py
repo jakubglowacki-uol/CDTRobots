@@ -24,7 +24,7 @@ class URfunctions:
         # self.gripper = RobotiqGripper(self.rtde_c)
         # print('Connected to RobotiqGripper')
         # self.gripper.connect(self.tcp_host_ip, 63352)  # don't change the 63352 port
-        self.home_joint_config = [0, -(90 / 360.0) * 2 * np.pi, 0, -(90 / 360.0) * 2 * np.pi, 0, 0.0]
+        self.home_joint_config = [ 1.63659167e+00,-1.55456886e+00,1.57027466e+00, -1.57097449e+00, -1.57150776e+00, -2.08059894e-05]#[0, -(90 / 360.0) * 2 * np.pi, 0, -(90 / 360.0) * 2 * np.pi, 0, 0.0]
 
     def send_script(self, script_path):
         with open(script_path, 'r') as file:
