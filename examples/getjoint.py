@@ -14,6 +14,6 @@ PORT = 30003
 
 def main():
     robot = URControl(ip="192.168.0.2", port=30003)
-    print(robot.get_current_joint_positions())
+    print(robot.get_current_joint_positions().tolist())
 if __name__ == '__main__':
      main()

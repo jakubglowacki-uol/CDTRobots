@@ -20,7 +20,6 @@ def main():
     gripper.move(0,125,125)
     joint_state=degreestorad([138.83,-43.74,64.3,-114.82,-92.91,53.26])
     robot.move_joint_list(joint_state, 0.5, 0.1, 0.02)
-    
     joint_state=degreestorad([137.19,-40.59,64.48,-113.82,-87.65,48.67])
     robot.move_joint_list(joint_state, 0.5, 0.1, 0.02)
     gripper.move(255,125,125)
