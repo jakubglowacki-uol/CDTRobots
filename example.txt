@@ -1,0 +1,25 @@
+Copy and paste:
+import os
+import time
+import argparse
+import math
+from robotiq.robotiq_gripper import RobotiqGripper
+import sys
+# Add the directory containing robotiq_preamble.py to the Python search path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(current_dir, 'robotiq'))
+
+from utils.UR_Functions import URfunctions as URControl
+def main():
+        robot = URControl(ip="192.168.0.2", port=30003)
+        gripper=RobotiqGripper()
+        gripper.connect("192.168.0.2", 63352)
+
+if __name__ == '__main__':
+     main()
+     
+Into a python file.
+From there add gripper.move(0,255,255) to open and change 0 to 255 to close
+Move robot into position you want using pendandt and then use getjoint to get the joint value and by using these lines of code the robot will move to it:
+    joint_state = [*enter output of getjoint here*]
+    robot.move_joint_list(joint_state, 0.05, 0.25, 0.02)
