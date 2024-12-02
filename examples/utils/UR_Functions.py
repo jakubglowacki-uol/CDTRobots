@@ -54,6 +54,13 @@ class URfunctions:
         actual_tool_positions = self.parse_tcp_state_data(state_data, 'cartesian_info')
         self.close_connection()
         return np.asarray(actual_tool_positions)
+    
+    def get_is_robot_running(self):
+        self.reconnect_socket()
+        state_data = self.sk.recv(1500)
+        program_state = self.parse_tcp_state_data(state_data, 'program_state')
+        self.close_connection()
+        return program_state
 
     def parse_tcp_state_data(self, data, subpasckage):
         dic = {'MessageSize': 'i', 'Time': 'd', 'q target': '6d', 'qd target': '6d', 'qdd target': '6d',
@@ -74,7 +81,7 @@ class URfunctions:
             data1, data = data[0:fmtsize], data[fmtsize:]
             fmt = "!" + dic[key]
             dic[key] = dic[key], struct.unpack(fmt, data1)
- 
+
         if subpasckage == 'joint_data':  # get joint data
             q_actual_tuple = dic["q actual"]
             joint_data= np.array(q_actual_tuple[1])
@@ -83,6 +90,9 @@ class URfunctions:
             Tool_vector_actual = dic["Tool vector actual"]  # get x y z rx ry rz
             cartesian_info = np.array(Tool_vector_actual[1])
             return cartesian_info
+        elif subpasckage == 'program_state':
+            program_state = dic["Program state"]
+            return program_state[1]
 
     def go_home(self):
         self.move_joint_list(self.home_joint_config)
@@ -103,6 +113,10 @@ class URfunctions:
         self.sk.send(str.encode(tcp_command))
         self.wait_for_target_joints(q)
         self.close_connection()
+
+    def wait_for_program_finished(self):
+        while self.get_is_robot_running() == "Running":
+            sleep(0.1)
 
     def wait_for_target_joints(self, target_joints, tol=0.01):
         actual_joints = self.get_current_joint_positions()
@@ -138,7 +152,6 @@ class URfunctions:
         print(data)
         self.sk.send(data.encode('utf-8'))
 
-
     def speedj_list(self, qd, a, t):
         """
         control 6 joint vel
@@ -157,7 +170,6 @@ class URfunctions:
         data += str(t)
         data += ")\nend\n"
         self.sk.send(data.encode('utf-8'))
-
 
     def speedj_enum(self, qd1, qd2, qd3, qd4, qd5, qd6, a, t):
         """
@@ -186,17 +198,32 @@ class URfunctions:
         print(data)
         self.sk.send(data.encode('utf-8'))
 
-
-    def movel_plane(self, target_tcp, vel = 0.5, acc = 0.2):
+    def movel_reference(self,reference_tcp, target_tcp, vel = 0.5, acc = 0.2):
         # tested
         self.reconnect_socket()
         tool_acc = acc  # Safe: 0.5
         tool_vel = vel  # Safe: 0.2
-        tcp_command = "movel(pose_trans(Plane_1, p[%f,%f,%f,%f,%f,%f],a=%f,v=%f,t=0,r=0))\n" % (
-            target_tcp[0], target_tcp[1], target_tcp[2], target_tcp[3], target_tcp[4],
-            target_tcp[5], tool_acc, tool_vel)
+        tcp_command = (
+            "movel(pose_trans(p[%f,%f,%f,%f,%f,%f], p[%f,%f,%f,%f,%f,%f]),a=%f,v=%f,t=0,r=0)\n"
+            % (
+                reference_tcp[0] / 1000,
+                reference_tcp[1] / 1000,
+                reference_tcp[2] / 1000,
+                reference_tcp[3],
+                reference_tcp[4],
+                reference_tcp[5],
+                target_tcp[0] / 1000,
+                target_tcp[1] / 1000,
+                target_tcp[2] / 1000,
+                target_tcp[3],
+                target_tcp[4],
+                target_tcp[5],
+                tool_acc,
+                tool_vel,
+            )
+        )
         self.sk.send(str.encode(tcp_command))
-        self.wait_for_target_position(target_tcp)
+        self.wait_for_program_finished() #if this doesn't work we replace it with a sleep because i cba
         self.close_connection()
 
     def movel_tcp(self, target_tcp, vel = 0.5, acc = 0.2):
@@ -286,7 +313,6 @@ class URfunctions:
         state_data = self.sk.recv(1500)
         self.close_connection()
         return state_data
-        
 
     # def turn_on_lid(self):
     #     self.set_digital_out(0, True)
