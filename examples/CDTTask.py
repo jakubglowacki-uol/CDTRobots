@@ -38,11 +38,12 @@ def pick_vial(robot:URControl, rackIndex, vialIndex):
     
     pre_pos=[rackPosX, rackPosY, rackPosZ_lift, rack0_origin[3], rack0_origin[4], rack0_origin[5]]
     grasp_pos=[rackPosX, rackPosY, rackPosZ_grasp, rack0_origin[3], rack0_origin[4], rack0_origin[5]]
-    robot.movel_tcp(approach)
-    robot.movel_tcp(pre_pos)
-    robot.movel_tcp(grasp_pos)
-    robot.movel_tcp(pre_pos)
-    robot.movel_tcp(approach)
+    robot.movel_plane(approach)
+    robot.movel_plane(pre_pos)
+    robot.movel_plane(grasp_pos)
+    robot.movel_plane(pre_pos)
+    robot.movel_plane(approach)
+    print("Moved")
 
 
 

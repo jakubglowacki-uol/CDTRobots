@@ -2,7 +2,7 @@
 
 import socket
 import numpy as np
-import utils.util
+import utils.util as util
 from time import sleep
 import struct
 from robotiq.robotiq_gripper_control import RobotiqGripper
@@ -185,6 +185,19 @@ class URfunctions:
         data += ")\nend\n"
         print(data)
         self.sk.send(data.encode('utf-8'))
+
+
+    def movel_plane(self, target_tcp, vel = 0.5, acc = 0.2):
+        # tested
+        self.reconnect_socket()
+        tool_acc = acc  # Safe: 0.5
+        tool_vel = vel  # Safe: 0.2
+        tcp_command = "movel(pose_trans(Plane_1, p[%f,%f,%f,%f,%f,%f],a=%f,v=%f,t=0,r=0))\n" % (
+            target_tcp[0], target_tcp[1], target_tcp[2], target_tcp[3], target_tcp[4],
+            target_tcp[5], tool_acc, tool_vel)
+        self.sk.send(str.encode(tcp_command))
+        self.wait_for_target_position(target_tcp)
+        self.close_connection()
 
     def movel_tcp(self, target_tcp, vel = 0.5, acc = 0.2):
         # tested
