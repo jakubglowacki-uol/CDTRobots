@@ -186,7 +186,6 @@ class URfunctions:
         print(data)
         self.sk.send(data.encode('utf-8'))
 
-
     def movel_tcp(self, target_tcp, vel = 0.5, acc = 0.2):
         # tested
         self.reconnect_socket()
@@ -233,7 +232,7 @@ class URfunctions:
         rpy[0] += delta_theta_x  # Adjust roll (rotation around x-axis)
         rpy[1] += delta_theta_y  # Adjust pich (rotation around y-axis)
         rpy[2] += delta_theta_z  # Adjust yaw (rotation around Z-axis)
-        target_rv = util.rpy2rv(rpy)
+        target_rv = utils.rpy2rv(rpy)
         target_tcp = np.array([
             current_tcp[0] + delta_x,
             current_tcp[1] + delta_y,
