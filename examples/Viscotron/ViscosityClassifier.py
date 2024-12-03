@@ -1,3 +1,3 @@
 import pytorch_lightning as pl
-import pytorchvideo.data
+from pytorchvideo.data.encoded_video import EncodedVideo
 import torch.utils.data

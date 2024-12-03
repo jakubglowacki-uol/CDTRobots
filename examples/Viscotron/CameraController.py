@@ -18,7 +18,7 @@ class CameraController:
         print("Recording clip...")
         cap = cv.VideoCapture(0)
         # Define the codec and create VideoWriter object
-        fourcc = cv.VideoWriter_fourcc(*'XVID')
+        fourcc = cv.VideoWriter_fourcc(*'MP4V')
         out = cv.VideoWriter(filename, fourcc, 20.0, (640,  480))
         startTime = datetime.datetime.now()
         while (datetime.datetime.now() - startTime).seconds < duration:

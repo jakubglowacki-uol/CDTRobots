@@ -1,5 +1,5 @@
 import rtde_control
-from robotiq_preamble import ROBOTIQ_PREAMBLE
+from robotiq.robotiq_preamble import ROBOTIQ_PREAMBLE
 import time
 
 # setup rtde here : https://sdurobotics.gitlab.io/ur_rtde/guides/guides.html#ubuntu-20-04-18-04-16-04

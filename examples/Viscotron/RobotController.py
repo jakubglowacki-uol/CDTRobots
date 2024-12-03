@@ -1,11 +1,5 @@
-import os
-from robotiq.robotiq_gripper import RobotiqGripper
-import sys
-
 # Add the directory containing robotiq_preamble.py to the Python search path
-current_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.join(current_dir, "robotiq"))
-
+from robotiq.robotiq_gripper import RobotiqGripper
 from utils.UR_Functions import URfunctions as URControl
 
 # Class to control the robot and gripper
