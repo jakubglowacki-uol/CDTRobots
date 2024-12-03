@@ -1,6 +1,10 @@
 import cv2 as cv
 import datetime
 
+# CameraController class is responsible for recording video clips
+# from the camera. It uses OpenCV to capture frames from the camera
+# and write them to a video file.
+
 
 class CameraController:
     def __init__(self):
@@ -9,6 +13,7 @@ class CameraController:
     def set_camera(self, camera):
         self.camera = camera
 
+    # Function to record a video clip from the camera
     def recordClip(self, duration: int, filename: str):
         print("Recording clip...")
         cap = cv.VideoCapture(0)

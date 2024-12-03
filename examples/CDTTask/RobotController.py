@@ -8,36 +8,60 @@ sys.path.append(os.path.join(current_dir, "robotiq"))
 
 from utils.UR_Functions import URfunctions as URControl
 
+# Class to control the robot and gripper
+# The robot is controlled using the URControl class
+# The gripper is controlled using the RobotiqGripper class
+
 
 class RobotController:
-    def __init__(self, ip, port):
+    def __init__(self, ip: str, port: int):
+        # Initialize the robot and gripper
         self.robot = URControl(ip=ip, port=port)
         self.gripper = RobotiqGripper()
         self.gripper.connect(ip, 63352)
 
-        self.plane = [404.87, 41.71, 560.79, 2.221, 2.221, 0]
+        # Define all the cartesian positions used in the task
+        # (mm,mm,mm,rad,rad,rad) (X,Y,Z,Rx,Ry,Rz)
+        self.plane = [
+            404.87,
+            41.71,
+            560.79,
+            2.221,
+            2.221,
+            0,
+        ]  # The base calibration plane
 
+        # Origin positions for both racks
         self.rack1_origin = [105.08, 334.24, 50.11, 2.203, -2.242, -0.051]
         self.rack0_origin = [251.75, 80.45, 50.55, 2.203, -2.242, -0.051]
+
+        # General pounce/approach pos
         self.approach = [146.54, 167.55, 199.42, 3.055, -0.731, 0]
 
+        # Positions around camera
         self.camera_origin = [0, 0, 0, 0, 0, 0]
         self.camera_tilt = [0, 0, 0, 0, 0, 0]
 
-    def pre_tilt_vial(self):    
+    # Function to move the vial to the pre-tilt position
+    def pre_tilt_vial(self):
         self.robot.movel_reference(self.plane, self.approach)
         self.robot.movel_reference(self.plane, self.camera_origin)
         print("Pre-tilting complete")
 
+    # Function to tilt the vial
     def tilt_vial(self):
         self.robot.movel_reference(self.plane, self.camera_tilt)
         print("Tilting complete")
 
+    # Function to untilt the vial and return to the approach position
     def untilt_vial(self):
         self.robot.movel_reference(self.plane, self.camera_origin)
         self.robot.movel_reference(self.plane, self.approach)
         print("Untilting complete")
 
+    # Function to place a vial in a rack
+    # rackIndex: 0 or 1
+    # vialIndex: 0-7 for rack 0, 0-3 for rack 1
     def place_vial(self, rackIndex: int, vialIndex: int):
         if rackIndex == 0:
             print("Picking from rack 0")
@@ -91,6 +115,9 @@ class RobotController:
         self.robot.movel_reference(self.plane, self.approach)
         print("Placing complete")
 
+    # Function to pick a vial from a rack
+    # rackIndex: 0 or 1
+    # vialIndex: 0-7 for rack 0, 0-3 for rack 1
     def pick_vial(self, rackIndex: int, vialIndex: int):
         if rackIndex == 0:
             print("Picking from rack 0")
