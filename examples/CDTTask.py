@@ -1,4 +1,5 @@
 import os
+from threading import Thread
 import time
 import argparse
 import math
@@ -21,6 +22,18 @@ approach=[146.54,167.55,199.42,3.055,-0.731,0]
 
 camera_origin=[0,0,0,0,0,0]
 camera_tilt=[0,0,0,0,0,0]
+
+
+def inspect_vial(
+    robot: URControl, gripper: RobotiqGripper, rackIndex, vialIndex
+):
+    robot.movel_reference(plane, approach)
+    robot.movel_reference(plane, camera_origin)
+    robot.movel_reference(plane, camera_tilt)
+    Thread.sleep(10)
+    robot.movel_reference(plane, camera_origin)
+    robot.movel_reference(plane, approach)
+    print("Tilting complete")
 
 
 def place_vial(robot: URControl, gripper: RobotiqGripper, rackIndex, vialIndex):
@@ -124,7 +137,7 @@ def main():
     gripper.connect("192.168.0.2", 63352)
     gripper.move(0,125,125)
     pick_vial(robot, gripper,0,0)
-
+    place_vial(robot, gripper,1,0)
 
     #robot.go_home()
 
