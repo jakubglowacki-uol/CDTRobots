@@ -1,5 +1,4 @@
 import os
-from threading import Thread
 from robotiq.robotiq_gripper import RobotiqGripper
 import sys
 
@@ -25,14 +24,19 @@ class RobotController:
         self.camera_origin = [0, 0, 0, 0, 0, 0]
         self.camera_tilt = [0, 0, 0, 0, 0, 0]
 
-    def inspect_vial(self):
+    def pre_tilt_vial(self):    
         self.robot.movel_reference(self.plane, self.approach)
         self.robot.movel_reference(self.plane, self.camera_origin)
+        print("Pre-tilting complete")
+
+    def tilt_vial(self):
         self.robot.movel_reference(self.plane, self.camera_tilt)
-        Thread.sleep(10)
+        print("Tilting complete")
+
+    def untilt_vial(self):
         self.robot.movel_reference(self.plane, self.camera_origin)
         self.robot.movel_reference(self.plane, self.approach)
-        print("Tilting complete")
+        print("Untilting complete")
 
     def place_vial(self, rackIndex: int, vialIndex: int):
         if rackIndex == 0:
