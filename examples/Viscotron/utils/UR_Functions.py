@@ -223,7 +223,8 @@ class URfunctions:
             )
         )
         self.sk.send(str.encode(tcp_command))
-        self.wait_for_program_finished() #if this doesn't work we replace it with a sleep because i cba
+        sleep(3)
+        #self.wait_for_program_finished() #if this doesn't work we replace it with a sleep because i cba
         self.close_connection()
 
     def movel_tcp(self, target_tcp, vel = 0.5, acc = 0.2):
