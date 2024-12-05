@@ -3,5 +3,5 @@ class ViscosityClassifier:
         self.model = ""
 
     # return true if viscous, false if not
-    def classify(self, video_path: str):
+    def classifyVideo(self, video_path: str):
         return True

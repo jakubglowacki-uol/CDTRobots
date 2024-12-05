@@ -38,7 +38,7 @@ class ViscotronController:
         self.robot.tilt_vial()
         sleep(25)
         self.robot.untilt_vial()
-        viscosity = self.classifier.classify(
+        viscosity = self.classifier.classifyVideo(
             "Sample_" + str(sampleIndex) + ".avi"
         )
         if viscosity:
@@ -61,7 +61,9 @@ class ViscotronController:
             self.robot.tilt_vial()
             sleep(25)
             self.robot.untilt_vial()
-            viscosity = self.classifier.classify("Sample_" + str(i) + ".avi")
+            viscosity = self.classifier.classifyVideo(
+                "Sample_" + str(i) + ".avi"
+            )
             if viscosity:
                 self.robot.place_vial(1, viscIndex)
                 viscIndex += 1
