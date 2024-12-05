@@ -1,3 +1,7 @@
-import pytorch_lightning as pl
-from pytorchvideo.data.encoded_video import EncodedVideo
-import torch.utils.data
+class ViscosityClassifier:
+    def __init__(self):
+        self.model = ""
+
+    # return true if viscous, false if not
+    def classify(self, video_path: str):
+        return True
